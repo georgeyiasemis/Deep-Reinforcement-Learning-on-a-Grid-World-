@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(1, '../')
+
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
@@ -8,7 +11,9 @@ from environment import Environment
 from agent import Agent
 from deep_Qlearning import DQN
 
+# =============================================================================
 # ONLINE LEARNING (batch size = 1) vs BATCH LEARNING
+# =============================================================================
 
 seed = 0
 np.random.seed(seed); torch.manual_seed(seed); random.seed(seed)
