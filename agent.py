@@ -6,7 +6,7 @@ from deep_Qlearning import ReplayBuffer
 class Agent():
 
     # The class initialisation function.
-    def __init__(self, environment, dqn, target_net=None, gamma=0.9, buffer_maxlen=100000, batch_size=50):
+    def __init__(self, environment, dqn, target_net=None, gamma=0.9, buffer_maxlen=100000, batch_size=50, reward_fun=None):
         # Set the agent's environment.
         self.environment = environment
         # Set the agent's q-network
@@ -24,6 +24,11 @@ class Agent():
         self.gamma = gamma
         # Create the agent's current state
         self.state = None
+        # Set reward function
+        if reward_fun == None:
+            self.reward_fun = reward_fun_a(a=1)
+        else:
+            self.reward_fun = reward_fun
         # Create the agent's total reward for the current episode.
         self.total_reward = None
         # Reset the agent.
@@ -47,9 +52,9 @@ class Agent():
         # Convert the discrete action into a continuous action.
         continuous_action = self._discrete_action_to_continuous(discrete_action)
         # Take one step in the environment, using this continuous action, based on the agent's current state. This returns the next state, and the new distance to the goal from this new state. It also draws the environment, if display=True was set when creating the environment object..
-        next_state, distance_to_goal = self.environment.step(self.state, continuous_action)
+        next_state, self.distance_to_goal = self.environment.step(self.state, continuous_action)
         # Compute the reward for this paction.
-        reward = self._compute_reward(distance_to_goal)
+        reward = self._compute_reward(self.distance_to_goal)
         # Create a transition tuple for this step.
         transition = (self.state, discrete_action, reward, next_state)
         # Set the agent's state for the next step, as the next state from this step
@@ -92,8 +97,9 @@ class Agent():
 
     # Function for the agent to compute its reward. In this example, the reward is based on the agent's distance to the goal after the agent takes an action.
     def _compute_reward(self, distance_to_goal):
-        reward = 1 - distance_to_goal
-        return reward
+
+        return self.reward_fun(distance_to_goal)
+
 
     # Function to convert discrete action (as used by a DQN) to a continuous action (as used by the environment).
     def _discrete_action_to_continuous(self, discrete_action):
@@ -102,3 +108,11 @@ class Agent():
                    2: np.array([-0.1, 0]), 3: np.array([0, -0.1])}
 
         return actions[discrete_action].astype('float32')
+
+def reward_fun_a(a=1):
+
+    return lambda dist: np.power(1 - dist, a)
+
+def step_reward_fun(goal_reward=1):
+
+    return lambda dist: goal_reward if dist <= 0.05 else 0

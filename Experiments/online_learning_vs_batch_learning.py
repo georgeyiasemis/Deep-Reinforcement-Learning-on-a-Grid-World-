@@ -8,7 +8,7 @@ import random
 # Import the environment module1
 from environment import Environment
 # Import agent and DQN
-from agent import Agent
+from agent import *
 from deep_Qlearning import DQN
 
 # =============================================================================
