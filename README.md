@@ -7,6 +7,7 @@ Folder ```Experiments``` contains experiments for:
 * Testing different types of reward functions
 
 ## Dependencies
+
 * ```pytorch```
 * ```numpy```
 * ```cv2```
@@ -18,6 +19,7 @@ Folder ```Experiments``` contains experiments for:
 ### Deep Q-Learning with Target Network
 ![DQL_Qnet](https://user-images.githubusercontent.com/71031687/111794800-44465580-88cf-11eb-99b3-8796cd1bdd2a.JPG)
 
+## Visualisations
 
 ### Visualisation of Greedy Policy
 ![dqn](https://user-images.githubusercontent.com/71031687/111641872-3d074500-8806-11eb-87f1-fbabe1900723.JPG)
