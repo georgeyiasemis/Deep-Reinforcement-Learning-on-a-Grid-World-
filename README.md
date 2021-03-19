@@ -23,7 +23,10 @@ Folder ```Experiments``` contains experiments for:
 
 ### Visualisation of Greedy Policy
 Trace of the agent from start position to goal position using its learnt greedy policy.
+
 ![dqn](https://user-images.githubusercontent.com/71031687/111641872-3d074500-8806-11eb-87f1-fbabe1900723.JPG)
+
 ### Visualisation of Q function
 Each triangle in each square represents an action: N, E, W, S. Most-yellowish action is the argmax action, most-blueish action is the argmin action.
+
 ![dqn2](https://user-images.githubusercontent.com/71031687/111641878-3e387200-8806-11eb-94e9-bfba62c35aec.JPG)
