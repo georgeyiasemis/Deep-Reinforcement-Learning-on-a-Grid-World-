@@ -4,6 +4,7 @@ Folder ```Experiments``` contains experiments for:
 * Using a Replay Buffer vs Online Learning
 * Using a Target Network
 * Decaying ε for ε-greedy policies for different decay factors
+* Testing different types of reward functions
 
 ### Visualisation of Greedy Policy
 ![dqn](https://user-images.githubusercontent.com/71031687/111641872-3d074500-8806-11eb-87f1-fbabe1900723.JPG)
