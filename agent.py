@@ -1,12 +1,13 @@
 import numpy as np
 import torch
-from deep_Qlearning import ReplayBuffer
+from deep_Qlearning import *
 
 # The Agent class allows the agent to interact with the environment.
 class Agent():
 
     # The class initialisation function.
-    def __init__(self, environment, dqn, target_net=None, gamma=0.9, buffer_maxlen=100000, batch_size=50, reward_fun=None):
+    def __init__(self, environment, dqn, target_net=None, gamma=0.9, buffer_maxlen=100000,
+                 batch_size=50, replay_buffer=None, reward_fun=None):
         # Set the agent's environment.
         self.environment = environment
         # Set the agent's q-network
@@ -17,7 +18,10 @@ class Agent():
             # Init target network with dqn weights
             self.target_net.q_network.load_state_dict(self.dqn.q_network.state_dict())
         # Set the agent's replay buffer
-        self.replaybuffer = ReplayBuffer(maxlen=buffer_maxlen)
+        if replay_buffer == None:
+            self.replaybuffer = ReplayBuffer(maxlen=buffer_maxlen)
+        else:
+            self.replaybuffer = replay_buffer
         # Set the batch size. If it is equal to 1 it is the same as online learning.
         self.batch_size = batch_size
         # Set gamma for the Bellman Eq.

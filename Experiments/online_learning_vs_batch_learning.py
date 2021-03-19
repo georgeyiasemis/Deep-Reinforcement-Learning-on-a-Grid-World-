@@ -62,7 +62,7 @@ while episodes_count < num_episodes:
         # Get last transition only
         transition = agent1.replaybuffer.sample(size=agent1.batch_size)
         # Store loss
-        loss = agent1.dqn.train_q_network(transition, agent1.gamma)
+        loss = agent1.dqn.train_q_network(transition, agent1.gamma)[0]
         losses[0].append(loss)
 
 
@@ -71,7 +71,7 @@ while episodes_count < num_episodes:
             # Sample a batch from the Replay Buffer
             batch = agent2.replaybuffer.sample(size=agent2.batch_size)
             # Store loss
-            loss = agent2.dqn.train_q_network(batch, agent2.gamma)
+            loss = agent2.dqn.train_q_network(batch, agent2.gamma)[0]
             losses[1].append(loss)
 
         if plot_Q_fun:

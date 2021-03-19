@@ -71,8 +71,8 @@ while episodes_count < num_episodes:
             batch1 = agent1.replaybuffer.sample(size=agent1.batch_size)
             batch2 = agent2.replaybuffer.sample(size=agent2.batch_size)
             # Store loss
-            losses[0].append(agent1.dqn.train_q_network(batch1, agent1.gamma))
-            losses[1].append(agent2.dqn.train_q_network(batch2, agent2.gamma, agent2.target_net))
+            losses[0].append(agent1.dqn.train_q_network(batch1, agent1.gamma)[0])
+            losses[1].append(agent2.dqn.train_q_network(batch2, agent2.gamma, agent2.target_net)[0])
 
     # Visualise Q-function
     if plot_Q_fun:

@@ -26,7 +26,7 @@ environment_3 = Environment(display=False, magnification=500, id=3)
 # R1(s) = 1 - dist(s, goal)
 rew_fun_1 = reward_fun_a(a=1)
 # R2(s) = (1 - dist(s, goal))^2
-rew_fun_2 = reward_fun_a(a=1)
+rew_fun_2 = reward_fun_a(a=2)
 # R3(s) = 1 if s==goal, -1 otherwise
 rew_fun_3 = step_reward_fun()
 
@@ -50,7 +50,7 @@ delta = 0.6
 update_target_every_steps = 20
 
 # Number of episodes
-num_episodes = 25
+num_episodes = 100
 num_episode_steps = 20
 episodes_count, steps_count = 0, 0
 
@@ -75,11 +75,11 @@ while episodes_count < num_episodes:
             # Step the agent once, and get the transition tuple for this step
             transition = agent.step(epsilon=epsilon)
             agent.replaybuffer.append(transition)
-            
+
             # Do not use e-greedy policy before training starts
             if steps_count == agent.batch_size - 1:
                 epsilon = starting_epsilon
-            
+
         # Do not start training until the ReplayBuffer has stored at least batch_size samples
         if steps_count >= batch_size:
             # Update target network weights
@@ -93,8 +93,9 @@ while episodes_count < num_episodes:
                 # Sample a batch from the Replay Buffer
                 batch = agent.replaybuffer.sample(batch_size)
                 agent.dqn.train_q_network(batch, agent.gamma)
+                # agent.replaybuffer.weight_update(deltas, ind)
 
-    
+
     # Visualise greedy trajectory after each episode
     for i, agent in enumerate(agents):
         greedy_trajectory = agent.get_greedy_trajectory()
@@ -107,11 +108,11 @@ while episodes_count < num_episodes:
 for i, agent in enumerate(agents):
     greedy_trajectory = agent.get_greedy_trajectory()
     agent.environment.plot_trace(greedy_trajectory)
-    
+
 plt.figure(figsize=(10,8))
 plt.plot(steps, distances[0], label=r'$R(s) = (1 - dist(s, goal)$')
 plt.plot(steps, distances[1], label=r'$R(s) = (1 - dist(s, goal))^2$')
 plt.plot(steps, distances[2], label='Step Reward function')
-plt.xlabel('Steps'); plt.ylabel('Episode Finale Distance from Goal'); 
+plt.xlabel('Steps'); plt.ylabel('Episode Finale Distance from Goal');
 plt.legend()
 plt.show()

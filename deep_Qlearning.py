@@ -42,13 +42,13 @@ class DQN():
         # Set all the gradients stored in the optimiser to zero.
         self.optimiser.zero_grad()
         # Calculate the loss for this transition.
-        loss = self._calculate_loss(transition, gamma, target_net)
+        loss, td_error = self._calculate_loss(transition, gamma, target_net)
         # Compute the gradients based on this loss, i.e. the gradients of the loss with respect to the Q-network parameters.
         loss.backward()
         # Take one gradient step to update the Q-network.
         self.optimiser.step()
         # Return the loss as a scalar
-        return loss.item()
+        return loss.item(), td_error
 
     # Function to calculate the loss for a particular transition.
     def _calculate_loss(self, batch, gamma, target_net):
@@ -72,7 +72,9 @@ class DQN():
         target += torch.tensor(np.array(batch[:,2], dtype='float')).float()
         # Calculate loss
         loss = self.criterion(pred, target)
-        return loss
+
+        td_error = target - pred
+        return loss, td_error
 
 class ReplayBuffer():
 
@@ -89,3 +91,35 @@ class ReplayBuffer():
         if size == 1:
             return np.array(self.deque[-1], dtype='object')
         return np.array(random.choices(self.deque, k=size), dtype='object')
+
+class PrioritisedExperienceReplayBuffer():
+
+    def __init__(self, maxlen=1000, epsilon=0.001, alpha=1.0):
+
+        self.maxlen = maxlen
+        self.deque = collections.deque(maxlen=maxlen)
+        self.weights = collections.deque(maxlen=maxlen)
+        self.probs = None
+        self.epsilon = epsilon
+        self.alpha = alpha
+
+    def append(self, transition):
+
+        self.deque.append(transition)
+        if len(self.weights) == 0:
+            self.weights.append(1)
+        else:
+            self.weights.append(max(self.weights))
+        self.probs = np.array(self.weights) / sum(self.weights)
+
+    def sample(self, size):
+
+        ind = np.random.choice(range(len(self.deque)), size, replace=False, p=self.probs)
+        return np.array(self.deque, dtype='object')[ind], ind
+
+    def weight_update(self, delta, ind):
+        self.weights = np.array(self.weights)
+        self.weights[ind] = np.abs(self.weights[ind]) + self.epsilon
+        self.probs = self.weights / sum(self.weights)
+
+        self.weights = collections.deque(self.weights, maxlen=self.maxlen)
