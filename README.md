@@ -20,6 +20,8 @@ Folder ```Experiments``` contains experiments for:
 ![DQL_ReplayBuffer](https://user-images.githubusercontent.com/71031687/111794794-427c9200-88cf-11eb-81b7-f8f622d51612.JPG)
 ### Deep Q-Learning with Target Network
 ![DQL_Qnet](https://user-images.githubusercontent.com/71031687/111794800-44465580-88cf-11eb-99b3-8796cd1bdd2a.JPG)
+### Prioritised Experience Learning
+![DQL_Priorit_ReplayBuffer](https://user-images.githubusercontent.com/71031687/111846623-e1c17980-890f-11eb-9f1d-2534b6312561.JPG)
 
 ## Visualisations
 
