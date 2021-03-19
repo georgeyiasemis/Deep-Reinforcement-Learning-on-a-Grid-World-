@@ -6,6 +6,13 @@ Folder ```Experiments``` contains experiments for:
 * Decaying ε for ε-greedy policies for different decay factors
 * Testing different types of reward functions
 
+## Dependencies
+* ```pytorch```
+* ```numpy```
+* ```cv2```
+* ```matplotlib```
+
+
 ### Visualisation of Greedy Policy
 ![dqn](https://user-images.githubusercontent.com/71031687/111641872-3d074500-8806-11eb-87f1-fbabe1900723.JPG)
 ### Visualisation of Q function
