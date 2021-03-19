@@ -1,5 +1,7 @@
 # Deep Reinforcement Learning on a Grid World
 
+```environment.py``` contains the Environment class and ```agent.py``` contains Agent and DQN classes.
+
 Folder ```Experiments``` contains experiments for:
 * Using a Replay Buffer vs Online Learning
 * Using a Target Network
